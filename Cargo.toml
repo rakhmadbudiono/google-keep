@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 wry = { git = "https://github.com/tauri-apps/wry" }
+image = { git = "https://github.com/image-rs/image" }
