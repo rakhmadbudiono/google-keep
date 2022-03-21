@@ -1,5 +1,6 @@
 extern crate image;
-use std::path::Path;
+
+use std::path::{Path, PathBuf};
 
 use wry::{
     application::{
@@ -7,7 +8,7 @@ use wry::{
         event_loop::{ControlFlow, EventLoop},
         window::{Icon, WindowBuilder},
     },
-    webview::WebViewBuilder,
+    webview::{WebContext, WebViewBuilder},
 };
 
 fn load_icon(path: &Path) -> Icon {
@@ -23,15 +24,20 @@ fn load_icon(path: &Path) -> Icon {
 }
 
 fn main() -> wry::Result<()> {
-    let path = concat!(env!("CARGO_MANIFEST_DIR"), "/static/icon.png");
-    let icon = load_icon(Path::new(path));
+    let icon_path = concat!(env!("CARGO_MANIFEST_DIR"), "/static/icon.png");
+    let icon = load_icon(Path::new(icon_path));
 
     let event_loop = EventLoop::new();
     let window = WindowBuilder::new()
         .with_title("Google Keep")
         .with_window_icon(Some(icon))
         .build(&event_loop)?;
+
+    let web_ctx_path = concat!(env!("CARGO_MANIFEST_DIR"), "/web-context");
+    let mut web_context = WebContext::new(Some(PathBuf::from(web_ctx_path)));
+    
     let _webview = WebViewBuilder::new(window)?
+        .with_web_context(&mut web_context)
         .with_url("https://keep.google.com/")?
         .build()?;
 
