@@ -31,6 +31,7 @@ fn main() -> wry::Result<()> {
     let window = WindowBuilder::new()
         .with_title("Google Keep")
         .with_window_icon(Some(icon))
+        .with_maximized(true)
         .build(&event_loop)?;
 
     let web_ctx_path = concat!(env!("CARGO_MANIFEST_DIR"), "/web-context");
